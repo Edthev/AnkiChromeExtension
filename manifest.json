@@ -5,5 +5,12 @@
    "manifest_version": 3,
    "action": {
       "default_popup": "index.html"
+   },
+   "icons": {
+      "16": "icons/ankiLogo-16px.png",
+      "32": "icons/ankiLogo-32px.png",
+      "48": "icons/ankiLogo-48px.png",
+      "64": "icons/ankiLogo-64px.png",
+      "128": "icons/ankiLogo-128px.png"
    }
 }
