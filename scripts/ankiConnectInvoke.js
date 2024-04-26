@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 let PORT = 8080 || 8765;
 let ADDRESS = "0.0.0.0" || "127.0.0.1" || "localhost";
 
