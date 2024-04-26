@@ -1,7 +1,8 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
-const PORT = process.env.PORT || 8765;
-const ADDRESS = process.env.ADDRESS || "127.0.0.1";
+let PORT = 8080 || 8765;
+let ADDRESS = "0.0.0.0" || "127.0.0.1" || "localhost";
 
 const invoke = (action, version, params = {}) => {
    return new Promise((resolve, reject) => {
