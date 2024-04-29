@@ -3,7 +3,7 @@ let PORT = 8080 || 8765;
 // TODO update address
 let ADDRESS = "0.0.0.0" || "127.0.0.1" || "localhost";
 
-const invoke = (action, version, params = {}) => {
+const invoke = (action, version = 6, params = {}) => {
    return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.addEventListener("error", () => reject("failed to issue request"));
