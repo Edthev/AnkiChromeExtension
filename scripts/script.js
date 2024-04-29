@@ -4,10 +4,6 @@ import ankiDeckObject from "./deckObject.js";
 const listOfDecks = document.getElementById("deckList");
 const handleButtonClick = (key) => {
    listOfDecks.innerHTML = "";
-   if (key == []) {
-      listOfDecks.innerHTML = "empty";
-   }
-   console.log(Object.keys(ankiDeckObject[key]));
    Object.keys(ankiDeckObject[key]).forEach((key) => {
       const button = document.createElement("button");
       button.textContent = key;
