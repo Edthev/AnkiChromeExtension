@@ -2,22 +2,21 @@ import invoke from "./ankiConnectInvoke.js"; //action, version, params
 import ankiDeckObject from "./deckObject.js";
 
 const listOfDecks = document.getElementById("deckList");
-const handleButtonClick = (key) => {
-   listOfDecks.innerHTML = "";
-   Object.keys(ankiDeckObject[key]).forEach((key) => {
+const handleDeckObject = (obj) => {
+   console.log("handleDeckObject Obj:", obj);
+   Object.keys(obj).forEach((deck) => {
+      const selectedDeck = obj[deck];
       const button = document.createElement("button");
-      button.textContent = key;
+      button.textContent = deck; //+ " " + Object.keys(selectedDeck).length;
       listOfDecks.appendChild(button);
       button.addEventListener("click", () => {
-         handleButtonClick(key);
+         listOfDecks.innerHTML = "";
+         if (Object.keys(selectedDeck).length == 0) {
+            console.log("end stage");
+         } else {
+            handleDeckObject(selectedDeck);
+         }
       });
    });
 };
-Object.keys(ankiDeckObject).forEach((key) => {
-   const button = document.createElement("button");
-   button.textContent = key;
-   listOfDecks.appendChild(button);
-   button.addEventListener("click", () => {
-      handleButtonClick(key);
-   });
-});
+handleDeckObject(ankiDeckObject);
