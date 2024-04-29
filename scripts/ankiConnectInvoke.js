@@ -1,4 +1,6 @@
+// TODO update port
 let PORT = 8080 || 8765;
+// TODO update address
 let ADDRESS = "0.0.0.0" || "127.0.0.1" || "localhost";
 
 const invoke = (action, version, params = {}) => {
