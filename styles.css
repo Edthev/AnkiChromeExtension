@@ -1,0 +1,9 @@
+body{
+    width: 380px;
+    height:760px;
+}
+#deckList{
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+}
