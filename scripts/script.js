@@ -1,5 +1,6 @@
 import invoke from "./ankiConnectInvoke.js"; //action, version, params
 import ankiDeckObject from "./deckObject.js";
+import addCardFunction from "./addCard.js";
 
 const listOfDecks = document.getElementById("deckList");
 const handleDeckObject = (obj) => {
@@ -13,6 +14,8 @@ const handleDeckObject = (obj) => {
          listOfDecks.innerHTML = "";
          if (Object.keys(selectedDeck).length == 0) {
             console.log("end stage");
+            // console.log("deck", deck);
+            addCardFunction(deck);
          } else {
             handleDeckObject(selectedDeck);
          }
