@@ -2,6 +2,8 @@ import invoke from "./ankiConnectInvoke.js"; //action, version, params
 
 const addCardFunction = async (deck) => {
    const addCardForm = document.getElementById("addCardPage");
+   const deckList = document.getElementById("deckList");
+   deckList.setAttribute("id", "displayNone");
    //    function for notetype
    //    function for listening to notetype change and getting input fields that correspond to that notetype
    //    function to create elements based on input fields
@@ -38,9 +40,12 @@ const addCardFunction = async (deck) => {
          modelName: noteType,
       });
 
-      console.log("noteType Change:", noteType);
-      console.log("modelFieldNames", modelFieldNames);
-      console.log("modelFieldDescriptions", modelFieldDescriptions);
+      for (let i = 0; i < modelFieldNames.length; i++) {
+         if (modelFieldNames[i] == "Source") {
+            const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            modelFieldDescriptions[i] = activeTab.url;
+         }
+      }
 
       modelFieldNames.map((fieldName, i) => {
          // label
@@ -54,7 +59,8 @@ const addCardFunction = async (deck) => {
          // TODO input field must be able to handle images,video and audio
          const inputField = document.createElement("input");
          inputField.setAttribute("type", "text");
-         inputField.setAttribute("id", "inputField");
+         inputField.setAttribute("class", "inputField");
+         inputField.setAttribute("id", fieldName);
          inputField.setAttribute("name", "textInput");
          inputField.setAttribute("placeholder", modelFieldDescriptions[i]);
          inputElements.appendChild(inputField);
@@ -78,32 +84,58 @@ const addCardFunction = async (deck) => {
 
    addCardForm.addEventListener("submit", async (event) => {
       event.preventDefault();
-      let input = document.getElementById("inputField").value;
+      const inputs = document.querySelectorAll(".inputField");
+      console.log("inputs:", inputs);
+      let arrayOfValues = [];
+      inputs.forEach((input, i) => {
+         const value = input.value;
+         console.log("input", value);
+         arrayOfValues.push(value);
+      });
+      let i = 0;
+      while (i < inputs.length) {
+         console.log("input len", i);
+         document.querySelectorAll(".inputField")[i].value = "";
+         i++;
+      }
+
+      const modelFieldNames = await invoke("modelFieldNames", 6, {
+         modelName: document.getElementById("noteTypeDropdown").value,
+      });
+      let fieldObj = {};
+      for (let i = 0; i < modelFieldNames.length; i++) {
+         if (modelFieldNames[i] == "Source") {
+            const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            const url = activeTab.url;
+            console.log("URL:", url);
+            fieldObj[modelFieldNames[i]] = url;
+         } else {
+            fieldObj[modelFieldNames[i]] = arrayOfValues[i];
+         }
+      }
+
       let noteType = document.getElementById("noteTypeDropdown").value;
-      console.log(input);
-      console.log("noteType", noteType);
-      document.getElementById("inputField").value = "";
+      document.querySelectorAll("inputField").value = "";
+
       // TODO set color to yellow/orange to show work is being done
-      const res = await invoke("addNote", 6, {
-         note: {
-            deckName: deck,
-            modelName: "Basic",
-            fields: {
-               Front: input,
-               Back: "back content test",
-            },
-            options: {
-               allowDuplicate: false,
-               duplicateScope: "deck",
-               duplicateScopeOptions: {
-                  deckName: deck,
-                  checkChildren: false,
-                  checkAllModels: false,
+      try {
+         const res = await invoke("addNote", 6, {
+            note: {
+               deckName: deck,
+               modelName: noteType,
+               fields: fieldObj,
+               options: {
+                  allowDuplicate: false,
+                  duplicateScope: "deck",
+                  duplicateScopeOptions: {
+                     deckName: deck,
+                     checkChildren: false,
+                     checkAllModels: false,
+                  },
                },
-            },
-            tags: [deck],
-            audio: [
-               /*
+               tags: [deck],
+               audio: [
+                  /*
                {
                   url: "https://assets.languagepod101.com/dictionary/japanese/audiomp3.php?kanji=猫&kana=ねこ",
                   filename: "yomichan_ねこ_猫.mp3",
@@ -111,9 +143,9 @@ const addCardFunction = async (deck) => {
                   fields: ["Front"],
                },
                */
-            ],
-            video: [
-               /*
+               ],
+               video: [
+                  /*
                {
                   url: "https://www.youtube.com/watch?v=K_aVLPgpktQ",
                   filename: "countdown.mp4",
@@ -121,20 +153,25 @@ const addCardFunction = async (deck) => {
                   fields: ["Back"],
                },
                */
-            ],
-            picture: [
+               ],
+               picture: [
+                  ,/*
                {
                   url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/A_black_cat_named_Tilly.jpg/220px-A_black_cat_named_Tilly.jpg",
                   filename: "black_cat.jpg",
                   skipHash: "8d6e4646dfae812bf39651b59d7429ce",
                   fields: ["Back"],
-               },
-            ],
-         },
-      });
+               }
+               */
+               ],
+            },
+         });
+         console.log("res:", res);
+      } catch (error) {
+         console.log(error);
+      }
       //   TODO once added show green to show it was completed
       // TODO show red error if something went wrong (null on failure)
-      console.log("res:", res);
    });
 };
 export default addCardFunction;
