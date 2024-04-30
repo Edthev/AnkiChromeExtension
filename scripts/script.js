@@ -23,3 +23,8 @@ const handleDeckObject = (obj) => {
    });
 };
 handleDeckObject(ankiDeckObject);
+document.getElementById("closeButton").addEventListener("click", function () {
+   // Close the pop-up
+   window.close();
+});
+// TODO must change from html pop up to a element on the page with position absolute and z-index infinity
