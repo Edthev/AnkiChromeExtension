@@ -4,7 +4,6 @@ import addCardFunction from "./addCard.js";
 
 const listOfDecks = document.getElementById("deckList");
 const handleDeckObject = (obj) => {
-   console.log("handleDeckObject Obj:", obj);
    Object.keys(obj).forEach((deck) => {
       const selectedDeck = obj[deck];
       const button = document.createElement("button");
@@ -23,8 +22,7 @@ const handleDeckObject = (obj) => {
    });
 };
 handleDeckObject(ankiDeckObject);
-document.getElementById("closeButton").addEventListener("click", function () {
-   // Close the pop-up
-   window.close();
-});
+
+// Dispatch the K key event
+document.dispatchEvent(kPressEvent);
 // TODO must change from html pop up to a element on the page with position absolute and z-index infinity
