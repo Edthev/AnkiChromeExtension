@@ -6,12 +6,6 @@
    "action": {
       "default_popup": "index.html"
    },
-   "content_scripts": [
-      {
-         "js": [],
-         "matches": []
-      }
-   ],
    "permissions": ["activeTab"],
    "icons": {
       "16": "icons/ankiLogo-16px.png",
