@@ -3,21 +3,32 @@
    "description": "Building an extension for myself",
    "version": "0.0.1",
    "manifest_version": 3,
-   "action": {
-      "default_popup": "index.html"
+   "permissions": ["activeTab", "scripting"],
+   "background": {
+      "service_worker": "/scripts/script.js"
    },
-   "content_scripts": [
-      {
-         "js": [],
-         "matches": []
+   "action": {
+      "default_icon": {
+         "16": "icons/ankiLogo-16px.png",
+         "32": "icons/ankiLogo-32px.png",
+         "48": "icons/ankiLogo-48px.png",
+         "64": "icons/ankiLogo-64px.png",
+         "128": "icons/ankiLogo-128px.png"
       }
-   ],
-   "permissions": ["activeTab"],
+   },
    "icons": {
       "16": "icons/ankiLogo-16px.png",
       "32": "icons/ankiLogo-32px.png",
       "48": "icons/ankiLogo-48px.png",
       "64": "icons/ankiLogo-64px.png",
       "128": "icons/ankiLogo-128px.png"
+   },
+   "commands": {
+      "_execute_action": {
+         "suggested_key": {
+            "default": "Ctrl+B",
+            "mac": "Command+B"
+         }
+      }
    }
 }
