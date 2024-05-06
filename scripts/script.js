@@ -1,6 +1,7 @@
 import invoke from "./ankiConnectInvoke.js"; //action, version, params
 import ankiDeckObject from "./deckObject.js";
 import addCardFunction from "./addCard.js";
+import addAppToPage from "./addAppToPage.js";
 
 const listOfDecks = document.getElementById("deckList");
 const handleDeckObject = (obj) => {
@@ -21,10 +22,9 @@ const handleDeckObject = (obj) => {
       });
    });
 };
+addAppToPage();
 handleDeckObject(ankiDeckObject);
 document.getElementById("closeButton").addEventListener("click", function () {
    // Close the pop-up
    window.close();
-});
-
-// TODO must change from html pop up to a element on the page with position absolute and z-index infinity
+}); // TODO must change from html pop up to a element on the page with position absolute and z-index infinity
